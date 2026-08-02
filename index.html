@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Combien recevez-vous vraiment au Bénin ?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --indigo-950: #14192b;
+    --indigo-900: #1b2340;
+    --indigo-800: #262f52;
+    --indigo-700: #37416c;
+    --gold: #c9a24a;
+    --gold-bright: #e3bd63;
+    --cowrie: #f3ede0;
+    --cowrie-dim: #b8b2a4;
+    --stripe-red: #a8433a;
+    --stripe-blue: #35507a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: var(--indigo-950);
+    color: var(--cowrie);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Bordure "par avion" — signature du design ---------- */
+  .airmail-stripe {
+    height: 10px;
+    width: 100%;
+    background: repeating-linear-gradient(
+      -45deg,
+      var(--stripe-red) 0px, var(--stripe-red) 14px,
+      var(--cowrie) 14px, var(--cowrie) 20px,
+      var(--stripe-blue) 20px, var(--stripe-blue) 34px,
+      var(--cowrie) 34px, var(--cowrie) 40px
+    );
+  }
+
+  a { color: inherit; }
+
+  /* ---------- En-tête ---------- */
+  header {
+    padding: 72px 24px 56px;
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+    display: inline-block;
+    border: 1px solid var(--indigo-700);
+    padding: 6px 14px;
+    border-radius: 999px;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5.5vw, 3.4rem);
+    line-height: 1.08;
+    color: var(--cowrie);
+    letter-spacing: -0.01em;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--gold-bright);
+  }
+
+  header p.lead {
+    margin-top: 20px;
+    color: var(--cowrie-dim);
+    font-size: 1.08rem;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ---------- Le corridor : diagramme signature ---------- */
+  .corridor-section {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 24px 80px;
+  }
+
+  .corridor {
+    position: relative;
+    padding: 48px 24px 36px;
+    background: var(--indigo-900);
+    border: 1px solid var(--indigo-700);
+    border-radius: 4px;
+  }
+
+  .corridor-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cowrie-dim);
+    margin-bottom: 28px;
+  }
+  .corridor-labels .dest { color: var(--gold-bright); }
+
+  .route-line {
+    position: relative;
+    height: 2px;
+    background: var(--indigo-700);
+    margin: 0 8px;
+  }
+
+  .route-line::before, .route-line::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--cowrie-dim);
+  }
+  .route-line::before { left: -4px; }
+  .route-line::after { right: -4px; background: var(--gold-bright); }
+
+  .waypoints {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 8px;
+    margin-top: -9px;
+  }
+
+  .waypoint {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    animation: rise 0.6s ease backwards;
+  }
+  .waypoint:nth-child(1) { animation-delay: 0.05s; }
+  .waypoint:nth-child(2) { animation-delay: 0.15s; }
+  .waypoint:nth-child(3) { animation-delay: 0.25s; }
+  .waypoint:nth-child(4) { animation-delay: 0.35s; }
+  .waypoint:nth-child(5) { animation-delay: 0.45s; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 2px solid var(--indigo-950);
+    box-shadow: 0 0 0 1px var(--indigo-700);
+    transition: transform 0.2s ease;
+  }
+  .waypoint:hover .dot { transform: scale(1.3); }
+
+  .dot.best { background: var(--gold-bright); box-shadow: 0 0 0 1px var(--gold-bright), 0 0 14px 1px #e3bd6377; }
+  .dot.mid { background: #8f97b8; }
+  .dot.low { background: #565f81; }
+
+  .waypoint .op-name {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--cowrie-dim);
+    text-align: center;
+  }
+  .waypoint .op-cost {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--cowrie);
+  }
+  .waypoint.is-best .op-cost { color: var(--gold-bright); }
+
+  .corridor-caption {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--cowrie-dim);
+    margin-top: 32px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ---------- Cartes ---------- */
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 24px 24px;
+  }
+
+  .card {
+    padding: 30px 0;
+    border-top: 1px solid var(--indigo-800);
+  }
+
+  .card .num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .card h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    margin: 8px 0 12px;
+    color: var(--cowrie);
+  }
+
+  .card p { color: var(--cowrie-dim); font-size: 1rem; }
+
+  /* ---------- Timbres / sujets ---------- */
+  .stamps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 18px;
+  }
+
+  .stamp {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--cowrie-dim);
+    border: 1px dashed var(--indigo-700);
+    padding: 7px 12px;
+    border-radius: 2px;
+  }
+
+  /* ---------- CTA ---------- */
+  .cta-block {
+    text-align: center;
+    padding: 56px 24px 72px;
+  }
+
+  .cta-block h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 1.7rem;
+    margin-bottom: 12px;
+  }
+
+  .cta-block p { color: var(--cowrie-dim); margin-bottom: 26px; }
+
+  .seal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 148px;
+    height: 148px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    color: var(--gold-bright);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-align: center;
+    text-decoration: none;
+    padding: 10px;
+    transition: transform 0.2s ease, background 0.2s ease;
+    position: relative;
+  }
+  .seal::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed var(--gold);
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+  .seal:hover { transform: scale(1.05); background: #c9a24a14; }
+  .seal:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 4px; }
+
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    color: #6b7290;
+    font-size: 0.8rem;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  @media (max-width: 600px) {
+    .corridor { padding: 36px 14px 28px; }
+    .op-name { display: none; }
+    .waypoint .op-cost { font-size: 0.7rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="airmail-stripe"></div>
+
+<header>
+  <span class="eyebrow">Corridor pilote — USA → Bénin</span>
+  <h1>Combien recevez-vous <em>vraiment</em> au Bénin ?</h1>
+  <p class="lead">
+    Le taux affiché n'est presque jamais le taux réel. On cartographie les frais visibles
+    et les marges cachées de chaque opérateur, pour que chaque franc envoyé arrive vraiment.
+  </p>
+</header>
+
+<section class="corridor-section">
+  <div class="corridor">
+    <div class="corridor-labels">
+      <span>🇺🇸 États-Unis</span>
+      <span class="dest">Bénin 🇧🇯</span>
+    </div>
+    <div class="route-line"></div>
+    <div class="waypoints">
+      <div class="waypoint">
+        <div class="dot low"></div>
+        <div class="op-name">REMITLY</div>
+        <div class="op-cost">−7,0%</div>
+      </div>
+      <div class="waypoint">
+        <div class="dot mid"></div>
+        <div class="op-name">WESTERN UNION</div>
+        <div class="op-cost">−4,3%</div>
+      </div>
+      <div class="waypoint">
+        <div class="dot mid"></div>
+        <div class="op-name">WORLDREMIT</div>
+        <div class="op-cost">−2,1%</div>
+      </div>
+      <div class="waypoint">
+        <div class="dot mid"></div>
+        <div class="op-name">MONEYGRAM</div>
+        <div class="op-cost">−2,0%</div>
+      </div>
+      <div class="waypoint is-best">
+        <div class="dot best"></div>
+        <div class="op-name">SENDWAVE</div>
+        <div class="op-cost">−1,1%</div>
+      </div>
+    </div>
+    <p class="corridor-caption">Coût total réel pour 200 USD envoyés — frais + marge de change, relevé du 2 août 2026</p>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="num">01</div>
+    <h2>Ce que fait ce projet</h2>
+    <p>
+      Nous suivons les opérateurs de transfert d'argent — Wise, WorldRemit, MoneyGram,
+      Western Union, Sendwave, Remitly — sur le corridor USA → Bénin, en révélant le coût
+      réel total : frais affichés additionnés à la marge dissimulée dans le taux de change.
+      Pas le prix marketing. Le prix payé.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="num">02</div>
+    <h2>Pourquoi le Bénin, précisément</h2>
+    <p>
+      L'observatoire mondial des prix de transfert de la Banque Mondiale suit des centaines
+      de corridors — mais pas celui-ci. Le Bénin, comme plusieurs petits marchés ouest-africains,
+      reste invisible dans les outils de transparence existants. Ce projet comble ce vide,
+      un relevé à la fois.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="num">03</div>
+    <h2>Sujets suivis</h2>
+    <div class="stamps">
+      <span class="stamp">Transferts d'argent</span>
+      <span class="stamp">Diaspora béninoise</span>
+      <span class="stamp">Zone UEMOA / FCFA</span>
+      <span class="stamp">Mobile Money</span>
+      <span class="stamp">Transparence des prix</span>
+    </div>
+  </div>
+
+</div>
+
+<div class="cta-block">
+  <h2>Le comparateur complet arrive</h2>
+  <p>Mise à jour continue, tous corridors, tous opérateurs.</p>
+  <a href="#" class="seal">M'avertir<br>au lancement</a>
+</div>
+
+<div class="airmail-stripe"></div>
+<footer>Cartographie de données publiques et déclaratives sur les frais de transfert d'argent · projet indépendant</footer>
+
+</body>
+</html>
